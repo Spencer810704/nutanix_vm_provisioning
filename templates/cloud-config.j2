@@ -1,0 +1,35 @@
+#cloud-config
+chpasswd:
+  list: |
+    nexiosoft:9q9YYveM7tq@GQPk
+  expire: False
+
+users:
+  - name: nexiosoft
+    shell: /bin/bash
+    ssh_authorized_keys:
+    - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC969TctEAFqRG2bfzNijwC4mO+UX9vlQbWzJj3A+mDFClH1xfgTQ3RmjPgvdrcgSGJ+D1WJF1rfwgG72uKDwChytSzNyuIqn3fHzLSiDDOgxy2cHowOci7xfrFZrFTMGytK9EQOAre6mB8WHcZkRUh6/CrHYLggvWHqXU4HTb2inBxC0e2kUwFqnt+dZqLeVYQFXmHjTcdEVFmw42gmfywlvcOV1vmJcpzJCyqByZQ3ZS4aldtk3EWxkTiL8P7zeCRSocig/ymI7UpnpLTF5kpWOxkgAXof8BSVtnmbnTghNShunLeHWWoc29OQCjLXslDhcEP//WwKF1UBmZFtisSwwH21bAnyoX7uKpfkKJQmCaCoIqNbSubsRagmTgWvJJgGZc5rFZfPi1BFUk1YMxVQCnpZdkbqcorYPENDuH3QfB75CzZRXTxLzwJY2xWmsKrMf0qkn43oXd5t/9tJc4JoxLu3IrBTx0PWkEOBO4y0KcCHOKeteLXC4eETGuCC10= local
+    lock-passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+
+# Configure networking, set a static IP
+write_files:
+- content: |
+    network:
+      ethernets:
+        ens3:
+          addresses:
+          - {{ ip_address }}/{{ netmask }}
+          gateway4: {{ gateway }}
+          nameservers:
+            addresses:
+            - 8.8.8.8
+            search: []
+      version: 2
+  path: /etc/netplan/50-cloud-init.yaml
+
+power_state:
+    delay: now
+    mode: reboot
+    message: Rebooting machine
+    condition: true

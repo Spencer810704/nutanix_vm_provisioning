@@ -1,0 +1,12 @@
+[
+    {
+        "hostname": "",
+        "ip_address": "",
+        "netmask": "",
+        "gateway": "",
+        "service_type": "",
+        "category": "",
+        "cpu": 1,
+        "memory": 1024
+    }
+]
